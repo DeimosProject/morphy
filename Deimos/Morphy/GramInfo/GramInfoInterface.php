@@ -15,7 +15,7 @@ interface GramInfoInterface
 
     public function readGramInfoHeader($offset);
 
-    public function getGramInfoHeaderSize();
+    public function getGramInfoHeaderSize($offset = null);
 
     public function readAncodes($info);
 

@@ -9,73 +9,72 @@ class Decorator implements GramInfoInterface
      */
     protected $info;
 
-    function phpMorphy_GramInfo_Decorator(GramInfoInterface $info)
+    public function Decorator(GramInfoInterface $info)
     {
         $this->info = $info;
     }
 
-    function readGramInfoHeader($offset)
+    public function readGramInfoHeader($offset)
     {
         return $this->info->readGramInfoHeader($offset);
     }
 
-    function getGramInfoHeaderSize()
+    public function getGramInfoHeaderSize($offset = null)
     {
-        // todo : return $this->info->getGramInfoHeaderSize($offset);
-        return null;
+        return $this->info->getGramInfoHeaderSize($offset);
     }
 
-    function readAncodes($info)
+    public function readAncodes($info)
     {
         return $this->info->readAncodes($info);
     }
 
-    function readFlexiaData($info)
+    public function readFlexiaData($info)
     {
         return $this->info->readFlexiaData($info);
     }
 
-    function readAllGramInfoOffsets()
+    public function readAllGramInfoOffsets()
     {
         return $this->info->readAllGramInfoOffsets();
     }
 
-    function readAllPartOfSpeech()
+    public function readAllPartOfSpeech()
     {
         return $this->info->readAllPartOfSpeech();
     }
 
-    function readAllGrammems()
+    public function readAllGrammems()
     {
         return $this->info->readAllGrammems();
     }
 
-    function readAllAncodes()
+    public function readAllAncodes()
     {
         return $this->info->readAllAncodes();
     }
 
-    function getLocale()
+    public function getLocale()
     {
         return $this->info->getLocale();
     }
 
-    function getEncoding()
+    public function getEncoding()
     {
         return $this->info->getEncoding();
     }
 
-    function getCharSize()
+    public function getCharSize()
     {
         return $this->info->getCharSize();
     }
 
-    function getEnds()
+    public function getEnds()
     {
         return $this->info->getEnds();
     }
 
-    function getHeader()
+    public function getHeader()
     {
         return $this->info->getHeader();
     }
