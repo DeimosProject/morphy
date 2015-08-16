@@ -50,7 +50,37 @@ class Morphy
         $predictAutomat = $this->bundle->getPredictAutomatFile();
         $storage = $this->factory->open($options['storage'], $predictAutomat, true);
         $this->predictFsa = Fsa::create($storage, true);
-        
+
+        $gramInfoFile = $this->bundle->getGramInfoFile();
+        $storage = $this->factory->open($options['storage'], $gramInfoFile, true);
+
+
+    }
+
+    function createGramInfo($storage)
+    {
+        //return new phpMorphy_GramInfo_RuntimeCaching(new phpMorphy_GramInfo_Proxy($storage));
+        //return new phpMorphy_GramInfo_RuntimeCaching(phpMorphy_GramInfo::create($storage, false));
+
+        $result = new phpMorphy_GramInfo_RuntimeCaching(
+            new phpMorphy_GramInfo_Proxy_WithHeader(
+                $storage,
+                $this->bundle->getGramInfoHeaderCacheFile()
+            )
+        );
+
+        if ($this->options['use_ancodes_cache']) {
+            return new phpMorphy_GramInfo_AncodeCache(
+                $result,
+                $this->storage_factory->open(
+                    $this->options['storage'],
+                    $this->bundle->getGramInfoAncodesCacheFile(),
+                    true
+                ) // always lazy open
+            );
+        } else {
+            return $result;
+        }
     }
 
 }

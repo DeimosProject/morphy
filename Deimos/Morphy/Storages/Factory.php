@@ -12,6 +12,13 @@ class Factory
         $this->shm_options = $shmOptions;
     }
 
+    /**
+     * @param $type
+     * @param $path
+     * @param bool|false $proxy
+     * @return Types\Proxy|Types\File
+     * @throws \Exception
+     */
     public function open($type, $path, $proxy = false)
     {
         $class = __NAMESPACE__ . '\\Types\\' . $type;

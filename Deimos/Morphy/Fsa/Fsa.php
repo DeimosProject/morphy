@@ -34,9 +34,8 @@ abstract class Fsa implements FsaInterface
     static function create($storage, $lazy = false)
     {
         if ($lazy) {
+            return new Proxy($storage);
             // TODO : Fixme
-            throw new \Exception();
-//            return new phpMorphy_Fsa_Proxy($storage);
         }
 
         $header = self::readHeader(

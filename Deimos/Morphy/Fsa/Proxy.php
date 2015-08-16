@@ -2,13 +2,11 @@
 
 namespace Deimos\Morphy\Fsa;
 
-use Deimos\Morphy\Storages\Storage;
-
 class Proxy extends Decorator
 {
     protected $storage;
 
-    function __construct(Storage $storage)
+    function __construct($storage)
     {
         $this->storage = $storage;
         unset($this->fsa);
