@@ -43,6 +43,7 @@ class Morphy
         $this->bundle = new Bundles\File($dir, $lang);
         $this->factory = new Storages\Factory($options);
 
+        // fsa
         $commonAutomat = $this->bundle->getCommonAutomatFile();
         $storage = $this->factory->open($options['storage'], $commonAutomat);
         $this->commonFsa = Fsa::create($storage);
@@ -51,28 +52,72 @@ class Morphy
         $storage = $this->factory->open($options['storage'], $predictAutomat, true);
         $this->predictFsa = Fsa::create($storage, true);
 
+        // graminfo
         $gramInfoFile = $this->bundle->getGramInfoFile();
         $storage = $this->factory->open($options['storage'], $gramInfoFile, true);
+        $gramInfo = $this->createGramInfo($storage);
 
+        $gramTabPath = $this->bundle->getGramTabFile();
+        if ($options['graminfo_as_text']) {
+            $gramTabPath = $this->bundle->getGramTabFileWithTextIds();
+        }
+
+        // gramtab
+        $gramTab = $this->createGramTab(
+            $this->factory->open(
+                $options['storage'],
+                $gramTabPath,
+                true
+            )
+        ); // always lazy
+
+        // common source
+        //$this->__common_source = $this->createCommonSource($bundle, $this->options['common_source']);
+
+        $this->helper = $this->createMorphierHelper(
+            $gramInfo,
+            $gramTab,
+            $options['graminfo_as_text']
+        );
 
     }
 
-    function createGramInfo($storage)
+    protected function createGramTab($storage)
+    {
+        // todo:
+        return new Gram\Tab\Proxy($storage);
+    }
+
+    protected function createMorphierHelper(
+        Gram\Info\InfoInterface $gramInfo,
+        Gram\Tab\TabInterface $gramTab,
+        $gramInfoAsText
+    )
+    {
+        return new phpMorphy_Morphier_Helper(
+            $gramInfo,
+            $gramTab,
+            $this->createAncodesResolver($gramTab, $this->bundle, true),
+            $gramInfoAsText
+        );
+    }
+
+    public function createGramInfo($storage)
     {
         //return new phpMorphy_GramInfo_RuntimeCaching(new phpMorphy_GramInfo_Proxy($storage));
         //return new phpMorphy_GramInfo_RuntimeCaching(phpMorphy_GramInfo::create($storage, false));
 
-        $result = new phpMorphy_GramInfo_RuntimeCaching(
-            new phpMorphy_GramInfo_Proxy_WithHeader(
+        $result = new Gram\Info\RuntimeCaching(
+            new Gram\Info\Proxy\WithHeader(
                 $storage,
                 $this->bundle->getGramInfoHeaderCacheFile()
             )
         );
 
         if ($this->options['use_ancodes_cache']) {
-            return new phpMorphy_GramInfo_AncodeCache(
+            return new  Gram\Info\AncodeCache(
                 $result,
-                $this->storage_factory->open(
+                $this->factory->open(
                     $this->options['storage'],
                     $this->bundle->getGramInfoAncodesCacheFile(),
                     true

@@ -1,8 +1,8 @@
 <?php
 
-namespace Deimos\Morphy\GramInfo;
+namespace Deimos\Morphy\Gram\Info;
 
-interface GramInfoInterface
+interface InfoInterface
 {
 
     public function getLocale();

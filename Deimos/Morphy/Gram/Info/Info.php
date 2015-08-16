@@ -1,8 +1,8 @@
 <?php
 
-namespace Deimos\Morphy\GramInfo;
+namespace Deimos\Morphy\Gram\Info;
 
-abstract class GramInfo implements GramInfoInterface
+abstract class Info implements InfoInterface
 {
 
     const HEADER_SIZE = 128;

@@ -61,4 +61,9 @@ class File
         return $this->genFileName('gramtab_txt');
     }
 
+    public function getGramInfoHeaderCacheFile()
+    {
+        return $this->genFileName('morph_data_header_cache');
+    }
+
 }

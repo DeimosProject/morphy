@@ -1,15 +1,15 @@
 <?php
 
-namespace Deimos\Morphy\GramInfo;
+namespace Deimos\Morphy\Gram\Info;
 
-class Decorator implements GramInfoInterface
+class Decorator implements InfoInterface
 {
     /**
-     * @var GramInfoInterface
+     * @var InfoInterface
      */
     protected $info;
 
-    public function Decorator(GramInfoInterface $info)
+    public function Decorator(InfoInterface $info)
     {
         $this->info = $info;
     }
