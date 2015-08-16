@@ -2,7 +2,9 @@
 
 namespace Deimos\Morphy\Fsa;
 
-abstract class Fsa
+use Deimos\Morphy\Storages\Storage;
+
+abstract class Fsa implements FsaInterface
 {
 
     const HEADER_SIZE = 128;
@@ -22,7 +24,14 @@ abstract class Fsa
         $this->root_trans = $this->readRootTrans();
     }
 
-    static function create($storage, $lazy)
+    /**
+     * @param $storage Storage
+     * @param bool|false $lazy
+     * @return mixed
+     * @throws \Exception
+     * @throws \phpMorphy_Exception
+     */
+    static function create($storage, $lazy = false)
     {
         if ($lazy) {
             // TODO : Fixme
@@ -85,8 +94,9 @@ abstract class Fsa
 
     static protected function readHeader($headerRaw)
     {
-        if (mb_strlen($headerRaw) != self::HEADER_SIZE) {
-            throw new \phpMorphy_Exception('Invalid header string given');
+        if (strlen($headerRaw) != self::HEADER_SIZE) {
+            //phpMorphy_
+            throw new \Exception('Invalid header string given');
         }
 
         $header = unpack(

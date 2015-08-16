@@ -55,7 +55,7 @@ abstract class Storage
             // TODO : throw new phpMorphy_Exception("Can`t read $len bytes at $offset offset, from '" . $this->getFileName() . "' file: " . $e->getMessage());
         }
 
-        if ($exactLength && mb_strlen($result) < $len) {
+        if ($exactLength && strlen($result) < $len) {
             // TODO : Создать новый Exception
             throw new \Exception();
             // TODO : throw new phpMorphy_Exception("Can`t read $len bytes at $offset offset, from '" . $this->getFileName() . "' file");

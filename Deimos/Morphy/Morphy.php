@@ -2,6 +2,8 @@
 
 namespace Deimos\Morphy;
 
+use Deimos\Morphy\Fsa\Fsa;
+
 class Morphy
 {
 
@@ -16,6 +18,9 @@ class Morphy
      * @var Storages\Factory
      */
     private $factory = null;
+
+    public $commonFsa;
+    public $predictFsa;
 
     public $options = array(
         'shm' => array(),
@@ -40,7 +45,12 @@ class Morphy
 
         $commonAutomat = $this->bundle->getCommonAutomatFile();
         $storage = $this->factory->open($options['storage'], $commonAutomat);
+        $this->commonFsa = Fsa::create($storage);
 
+        $predictAutomat = $this->bundle->getPredictAutomatFile();
+        $storage = $this->factory->open($options['storage'], $predictAutomat, true);
+        $this->predictFsa = Fsa::create($storage, true);
+        
     }
 
 }
