@@ -7,6 +7,18 @@ use Deimos\Morphy\Fsa\Fsa;
 class Morphy
 {
 
+    const RESOLVE_ANCODES_AS_TEXT = 0;
+    const RESOLVE_ANCODES_AS_DIALING = 1;
+    const RESOLVE_ANCODES_AS_INT = 2;
+
+    const NORMAL = 0;
+    const IGNORE_PREDICT = 2;
+    const ONLY_PREDICT = 3;
+
+    const PREDICT_BY_NONE = 'none';
+    const PREDICT_BY_SUFFIX = 'by_suffix';
+    const PREDICT_BY_DB = 'by_db';
+
     public $path;
 
     /**
@@ -94,12 +106,53 @@ class Morphy
         $gramInfoAsText
     )
     {
-        return new phpMorphy_Morphier_Helper(
+        return new Morphier\Helper(
             $gramInfo,
             $gramTab,
-            $this->createAncodesResolver($gramTab, $this->bundle, true),
+            $this->createAncodesResolver($gramTab, true),
             $gramInfoAsText
         );
+    }
+
+    protected function createAncodesResolver(Gram\Tab\TabInterface $gramtab, $lazy)
+    {
+        $result = $this->createAncodesResolverInternal($gramtab);
+
+        if ($lazy) {
+            return new AncodesResolver\Proxy($result[0], $result[1]);
+        } else {
+            return AncodesResolver\Proxy::instantinate($result[0], $result[1]);
+        }
+    }
+
+    protected function createAncodesResolverInternal(Gram\Tab\TabInterface $gramtab)
+    {
+        switch ($this->options['resolve_ancodes']) {
+            case self::RESOLVE_ANCODES_AS_TEXT:
+                return array(
+                    '\Deimos\Morphy\AncodesResolver\ToText',
+                    array($gramtab)
+                );
+            case self::RESOLVE_ANCODES_AS_INT:
+                return array(
+                    'phpMorphy_AncodesResolver_AsIs',
+                    array()
+                );
+            case self::RESOLVE_ANCODES_AS_DIALING:
+                return array(
+                    'phpMorphy_AncodesResolver_ToDialingAncodes',
+                    array(
+                        $this->factory->open(
+                            $this->options['storage'],
+                            $this->bundle->getAncodesMapFile(),
+                            true
+                        ) // always lazy open
+                    )
+                );
+            default:
+                // todo
+                throw new \Exception("Invalid resolve_ancodes option, valid values are RESOLVE_ANCODES_AS_DIALING, RESOLVE_ANCODES_AS_INT, RESOLVE_ANCODES_AS_TEXT");
+        }
     }
 
     public function createGramInfo($storage)

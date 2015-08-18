@@ -9,7 +9,7 @@ class Decorator implements InfoInterface
      */
     protected $info;
 
-    public function Decorator(InfoInterface $info)
+    public function __construct(InfoInterface $info)
     {
         $this->info = $info;
     }
