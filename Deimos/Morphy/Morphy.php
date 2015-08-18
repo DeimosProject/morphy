@@ -135,12 +135,12 @@ class Morphy
                 );
             case self::RESOLVE_ANCODES_AS_INT:
                 return array(
-                    'phpMorphy_AncodesResolver_AsIs',
+                    '\Deimos\Morphy\AncodesResolver\AsIs',
                     array()
                 );
             case self::RESOLVE_ANCODES_AS_DIALING:
                 return array(
-                    'phpMorphy_AncodesResolver_ToDialingAncodes',
+                    '\Deimos\Morphy\AncodesResolver\ToDialingAncodes',
                     array(
                         $this->factory->open(
                             $this->options['storage'],
