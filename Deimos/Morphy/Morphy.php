@@ -155,6 +155,65 @@ class Morphy
         }
     }
 
+    /**
+     * @return string
+     */
+    function getEncoding()
+    {
+        return $this->helper->getGramInfo()->getEncoding();
+    }
+
+
+    protected function invoke($method, $word, $type)
+    {
+        /**
+         * TODO: перебрать метод
+         */
+        $this->last_prediction_type = self::PREDICT_BY_NONE;
+
+        if ($type === self::ONLY_PREDICT) {
+            if (is_array($word)) {
+                $result = array();
+
+                foreach ($word as $w) {
+                    $result[$w] = $this->predictWord($method, $w);
+                }
+
+                return $result;
+            } else {
+                return $this->predictWord($method, $word);
+            }
+        }
+
+        if (is_array($word)) {
+            $result = $this->__bulk_morphier->$method($word);
+
+            if ($type !== self::IGNORE_PREDICT) {
+                $not_found = $this->__bulk_morphier->getNotFoundWords();
+
+                for ($i = 0, $c = count($not_found); $i < $c; $i++) {
+                    $word = $not_found[$i];
+
+                    $result[$word] = $this->predictWord($method, $word);
+                }
+            } else {
+                for ($i = 0, $c = count($not_found); $i < $c; $i++) {
+                    $result[$not_found[$i]] = false;
+                }
+            }
+
+            return $result;
+        } else {
+            if (false === ($result = $this->__common_morphier->$method($word))) {
+                if ($type !== self::IGNORE_PREDICT) {
+                    return $this->predictWord($method, $word);
+                }
+            }
+
+            return $result;
+        }
+    }
+
     public function createGramInfo($storage)
     {
         //return new phpMorphy_GramInfo_RuntimeCaching(new phpMorphy_GramInfo_Proxy($storage));
