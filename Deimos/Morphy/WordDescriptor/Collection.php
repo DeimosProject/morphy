@@ -4,7 +4,7 @@ namespace Deimos\Morphy\WordDescriptor;
 
 use Deimos\Morphy\Morphier\Helper;
 
-class Collection  implements \Countable, \IteratorAggregate, \ArrayAccess
+class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
 {
     protected
         $word,

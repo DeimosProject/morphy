@@ -49,7 +49,8 @@ abstract class Storage
 
         try {
             $result = $this->readUnsafe($offset, $len);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             // TODO : Создать новый Exception
             throw new \Exception();
             // TODO : throw new phpMorphy_Exception("Can`t read $len bytes at $offset offset, from '" . $this->getFileName() . "' file: " . $e->getMessage());

@@ -107,7 +107,8 @@ class Helper
     {
         if ($this->resolve_pos) {
             return $this->resolvePartOfSpeech($annot['pos_id']);
-        } else {
+        }
+        else {
             return $annot['pos_id'];
         }
     }
@@ -135,10 +136,12 @@ class Helper
     {
         if ($flen) {
             $base = $GLOBALS['__phpmorphy_substr']($word, $cplen + $plen, -$flen);
-        } else {
+        }
+        else {
             if ($cplen || $plen) {
                 $base = $GLOBALS['__phpmorphy_substr']($word, $cplen + $plen);
-            } else {
+            }
+            else {
                 $base = $word;
             }
         }
@@ -250,7 +253,8 @@ class Helper
                             $form_no++;
                             continue;
                         }
-                    } else {
+                    }
+                    else {
                         if (isset($partOfSpeech) && $form_pos !== $partOfSpeech) {
                             $form_no++;
                             continue;
@@ -264,7 +268,8 @@ class Helper
 
                     if ($returnWords) {
                         $result[$form] = 1;
-                    } else {
+                    }
+                    else {
                         $result[] = array(
                             'form' => $form,
                             'form_no' => $form_no,
@@ -322,7 +327,8 @@ class Helper
             }
 
             return $result;
-        } else {
+        }
+        else {
             return array_unique($array, SORT_REGULAR);
         }
     }
@@ -458,7 +464,8 @@ class Helper
                 );
 
                 $result[$prefix . $annot['base_prefix'] . $base . $annot['base_suffix']] = 1;
-            } else {
+            }
+            else {
                 $result[$word] = 1;
             }
         }
@@ -572,7 +579,8 @@ class Helper
     {
         if (is_array($annotsRaw)) {
             return $annotsRaw;
-        } else {
+        }
+        else {
             return $this->annot_decoder->decode($annotsRaw, $withBase);
         }
     }

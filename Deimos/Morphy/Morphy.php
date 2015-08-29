@@ -120,7 +120,8 @@ class Morphy
 
         if ($lazy) {
             return new AncodesResolver\Proxy($result[0], $result[1]);
-        } else {
+        }
+        else {
             return AncodesResolver\Proxy::instantinate($result[0], $result[1]);
         }
     }
@@ -180,7 +181,8 @@ class Morphy
                 }
 
                 return $result;
-            } else {
+            }
+            else {
                 return $this->predictWord($method, $word);
             }
         }
@@ -196,14 +198,16 @@ class Morphy
 
                     $result[$word] = $this->predictWord($method, $word);
                 }
-            } else {
+            }
+            else {
                 for ($i = 0, $c = count($not_found); $i < $c; $i++) {
                     $result[$not_found[$i]] = false;
                 }
             }
 
             return $result;
-        } else {
+        }
+        else {
             if (false === ($result = $this->__common_morphier->$method($word))) {
                 if ($type !== self::IGNORE_PREDICT) {
                     return $this->predictWord($method, $word);
@@ -235,7 +239,8 @@ class Morphy
                     true
                 ) // always lazy open
             );
-        } else {
+        }
+        else {
             return $result;
         }
     }

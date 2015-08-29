@@ -26,7 +26,8 @@ class State
 
             if (!$trans['term']) {
                 $result[] = $this->createNormalLink($trans, $this->raw_transes[$i]);
-            } else {
+            }
+            else {
                 $result[] = $this->createAnnotLink($trans, $this->raw_transes[$i]);
             }
         }

@@ -56,7 +56,7 @@ class File
         return $this->genFileName('gramtab');
     }
 
-    public  function getGramTabFileWithTextIds()
+    public function getGramTabFileWithTextIds()
     {
         return $this->genFileName('gramtab_txt');
     }

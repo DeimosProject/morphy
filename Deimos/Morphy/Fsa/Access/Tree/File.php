@@ -29,7 +29,8 @@ class File extends \Deimos\Morphy\Fsa\Fsa
                 // When this is single transition in state then break
                 if (($trans & 0x0200) && ($trans & 0x0400)) {
                     $result = false;
-                } else {
+                }
+                else {
                     $start_offset += 4;
                     fseek($__fh, $start_offset);
                     list(, $trans) = unpack('V', fread($__fh, 4));
@@ -45,14 +46,16 @@ class File extends \Deimos\Morphy\Fsa\Fsa
                     if ($attr == $char) {
                         $result = true;
                         break;
-                    } else if ($attr > $char) {
+                    }
+                    else if ($attr > $char) {
                         if (($trans & 0x0200)) {
                             $result = false;
                             break;
                         }
 
                         $idx = $idx << 1;
-                    } else {
+                    }
+                    else {
                         if (($trans & 0x0400)) {
                             $result = false;
                             break;
@@ -98,7 +101,8 @@ class File extends \Deimos\Morphy\Fsa\Fsa
 
                 if (0 == ($trans & 0x0100)) {
                     $result = false;
-                } else {
+                }
+                else {
                     $annot = $this->getAnnot($trans);
                 }
             }
@@ -134,14 +138,16 @@ class File extends \Deimos\Morphy\Fsa\Fsa
 
                     if ($readAnnot) {
                         $annot = $this->getAnnot($trans);
-                    } else {
+                    }
+                    else {
                         $annot = $trans;
                     }
 
                     if (!call_user_func($callback, $path, $annot)) {
                         return $total;
                     }
-                } else {
+                }
+                else {
                     $path .= chr(($trans & 0xFF));
                     array_push($stack, $state);
                     array_push($stack_idx, $i + 1);
@@ -158,7 +164,8 @@ class File extends \Deimos\Morphy\Fsa\Fsa
 //                $path = $GLOBALS['__phpmorphy_substr']($path, 0, -1);
                 $path = substr($path, 0, -1);
             }
-        } while (!empty($stack));
+        }
+        while (!empty($stack));
 
         return $total;
     }
@@ -256,7 +263,8 @@ class File extends \Deimos\Morphy\Fsa\Fsa
 
         if ($len) {
             $annot = fread($__fh, $len);
-        } else {
+        }
+        else {
             $annot = null;
         }
 

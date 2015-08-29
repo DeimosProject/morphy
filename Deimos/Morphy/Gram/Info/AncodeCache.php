@@ -33,7 +33,8 @@ class AncodeCache extends Decorator
             $this->hits++;
 
             return $this->cache[$offset];
-        } else {
+        }
+        else {
             // in theory misses never occur
             $this->miss++;
 

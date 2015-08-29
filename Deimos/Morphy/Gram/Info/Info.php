@@ -19,7 +19,8 @@ abstract class Info implements InfoInterface
         $this->header = $header;
 
         $this->ends = str_repeat("\0", $header['char_size'] + 1);
-        $this->ends_size = /*$GLOBALS['__phpmorphy_*/strlen($this->ends);
+        $this->ends_size = /*$GLOBALS['__phpmorphy_*/
+            strlen($this->ends);
     }
 
 
@@ -87,13 +88,17 @@ abstract class Info implements InfoInterface
         );
 
         $offset = 24 * 4;
-        $len = ord(/*$GLOBALS['__phpmorphy_*/substr($headerRaw, $offset++, 1));
-        $header['lang'] = rtrim(/*$GLOBALS['__phpmorphy_*/substr($headerRaw, $offset, $len));
+        $len = ord(/*$GLOBALS['__phpmorphy_*/
+            substr($headerRaw, $offset++, 1));
+        $header['lang'] = rtrim(/*$GLOBALS['__phpmorphy_*/
+            substr($headerRaw, $offset, $len));
 
         $offset += $len;
 
-        $len = ord(/*$GLOBALS['__phpmorphy_*/substr($headerRaw, $offset++, 1));
-        $header['encoding'] = rtrim(/*$GLOBALS['__phpmorphy_*/substr($headerRaw, $offset, $len));
+        $len = ord(/*$GLOBALS['__phpmorphy_*/
+            substr($headerRaw, $offset++, 1));
+        $header['encoding'] = rtrim(/*$GLOBALS['__phpmorphy_*/
+            substr($headerRaw, $offset, $len));
 
         return $header;
     }
@@ -112,8 +117,11 @@ abstract class Info implements InfoInterface
 
     protected function cleanupCString($string)
     {
-        if (false !== ($pos = /*$GLOBALS['__phpmorphy_strpos']*/strpos($string, $this->ends))) {
-            $string = /*$GLOBALS['__phpmorphy_*/substr($string, 0, $pos);
+        if (false !== ($pos = /*$GLOBALS['__phpmorphy_strpos']*/
+                strpos($string, $this->ends))
+        ) {
+            $string = /*$GLOBALS['__phpmorphy_*/
+                substr($string, 0, $pos);
         }
 
         return $string;

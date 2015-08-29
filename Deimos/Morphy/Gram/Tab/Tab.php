@@ -68,7 +68,8 @@ class Tab implements TabInterface
             }
 
             return $result;
-        } else {
+        }
+        else {
             if (!isset($this->grammems[$ids])) {
                 // todo
                 throw new \Exception("Invalid grammem id '$ids'");
